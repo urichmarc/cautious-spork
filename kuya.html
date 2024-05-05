@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Notes</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-famiLy: sans-serif;
+}
+
+body {
+background-color: lightblue;
+max-width: 1250px;
+margin: 50px auto;
+}
+
+.container {
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+}
+
+.top {
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+gap: 20px;
+margin-bottom: 20px;
+}
+
+.top h1 {
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 35px;
+line-height: 35px;
+}
+
+.top h1 img {
+width: 35px;
+margin-left: 10px:
+}
+
+.createBtn {
+font-size: 10px;
+font-weight: 600px;
+text-transform: uppercase;
+padding: 10px 30px;
+letter-spacing: 2px;
+color: white;
+background-color: grey;
+border: none;
+border-radius: 10px;
+cursor: pointer;
+}
+
+.createBtn:active {
+transform: scale(0.95);
+}
+
+.notesContainer {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+}
+
+.note {
+position: relative;
+width: 300px;
+height: 150px;
+display: inline;
+border: 3px solid white;
+border-radius: 10px;
+}
+
+.note p {
+width: 200%;
+height: 200%;
+padding: 10px;
+color: black;
+background-color: transparent;
+outline: none;
+}
+
+.note img {
+width: 20px;
+position: absolute;
+right: 10px;
+bottom: 10px;
+cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="top">
+<h1>Notes<img src="htpps://github.com/DzareDeveloper/Img/blob?main/notes.png?raw=true" alt=""></h1>
+<button class="createBtn">Create</button>
+</div>
+<div class="notesContainer"></div>
+
+</div>
+    <script>
+const notesContainerEl = document.querySelector(".notesContainer");
+const createBtnEl = document.querySelector(".createBtn");
+
+createBtnEl.addEventListener("click",()=>{
+const noteEl = document.createElement("div");
+const pEl = document.createElement("p");
+const imgEl = document.createElement("img");
+noteEl.className = "note";
+imgEl.src = "https://raw.githubusercontent.com/DzarelDeveloper/Img/main/mantan.png";
+pEl.setAttribute("contenteditable","true")
+noteEl.appendChild(pEl);
+noteEl.appendChild(imgEl);
+notesContainerEl.appendChild(noteEl);
+})
+
+notesContainerEl.addEventListener("click",(event)=>{
+if(event.target.tagname==="IMG"){
+event.target.parentElement.remove();
+updateNotesStorage();
+}
+else if(event.target.tagName==="P"){
+noteEls = document.querySelectorAll(".note");
+noteEls.forEach(element => {
+element.onkeyup = function(){
+updateNotesStorage();
+}
+});
+}
+})
+
+document.addEventListener("keydown",(event)=>{
+if(event.key === "Enter"){
+document.execCommand("insertLineBreak");
+event.preventDefault();
+}
+})
+
+function showNotes(){
+notesContainerEl.innerHTML = localStorage.getItem("notes");
+}
+
+function updateNotesStorage(){
+localStorage.setItem("notes",notesContainerEl.innerHTML);
+}
+
+showNotes();
+</script>
+</body>
+</html>
